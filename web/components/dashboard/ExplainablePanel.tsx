@@ -102,7 +102,18 @@ export function ExplainablePanel() {
             </div>
 
             {/* Media Preview & Bounding Box Visualizer */}
-            {incident.mediaUrls.imageUrl && (
+            {incident.mediaUrls.videoUrl ? (
+              <div className="relative aspect-video rounded-lg overflow-hidden border border-purple-500/40 bg-black">
+                <video
+                  src={incident.mediaUrls.videoUrl}
+                  controls
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute top-1.5 left-1.5 bg-black/70 px-2 py-0.5 rounded text-[9px] font-mono text-purple-300 font-bold">
+                  🎥 CITIZEN VIDEO FEED
+                </div>
+              </div>
+            ) : incident.mediaUrls.imageUrl ? (
               <div className="relative aspect-video rounded-lg overflow-hidden border border-white/10 bg-black">
                 <img
                   src={incident.mediaUrls.imageUrl}
@@ -125,7 +136,7 @@ export function ExplainablePanel() {
                   </div>
                 ))}
               </div>
-            )}
+            ) : null}
 
             <div className="space-y-1 font-mono text-[11px] text-slate-300">
               <div className="flex justify-between">
