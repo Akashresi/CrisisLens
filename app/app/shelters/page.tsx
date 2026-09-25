@@ -1,19 +1,38 @@
 "use client";
 
 import React from "react";
-import { Home, Phone, Navigation, ShieldCheck, MapPin } from "lucide-react";
+import { Home, Phone, Navigation, ShieldCheck, MapPin, Volume2 } from "lucide-react";
 import { useCitizenApp } from "@/lib/store";
 
 export default function SheltersPage() {
-  const { shelters } = useCitizenApp();
+  const { shelters, language, t, speak } = useCitizenApp();
 
   return (
-    <div className="p-4 space-y-4">
-      <div className="space-y-1">
-        <h1 className="text-lg font-black text-white tracking-tight">Safe Evacuation Shelters & Relief Camps</h1>
-        <p className="text-xs text-slate-400">
-          Government-authorized relief camps with food rations, drinking water, and medical aid posts.
-        </p>
+    <div className="p-3 space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-base font-black text-white tracking-tight flex items-center space-x-2">
+            <span>🏕️</span>
+            <span>{t.sheltersTitle}</span>
+          </h1>
+          <p className="text-xs text-slate-400">
+            {language === "ta"
+              ? "இலவச உணவு, குடிநீர் மற்றும் தங்கும் இடம் உள்ள முகாம்கள்."
+              : "Safe shelters with free meals, drinking water & medical beds."}
+          </p>
+        </div>
+        <button
+          onClick={() =>
+            speak(
+              language === "ta"
+                ? "அருகிலுள்ள பாதுகாப்பு முகாம்கள் மற்றும் உணவு மையங்கள்."
+                : "Nearby safe shelters and relief food camps."
+            )
+          }
+          className="text-amber-300 p-1.5 rounded-lg bg-white/5 shrink-0"
+        >
+          <Volume2 className="h-4 w-4" />
+        </button>
       </div>
 
       <div className="space-y-3">
@@ -21,55 +40,58 @@ export default function SheltersPage() {
           const openSpaces = sh.totalCapacity - sh.occupied;
           const isNear = sh.status === "NEAR_CAPACITY";
 
+          const shelterSpeech = `${sh.name}. ${sh.distanceKm} kilometers away. ${openSpaces} spots available. Food and medical available.`;
+
           return (
             <div
               key={sh.id}
-              className="rounded-xl border border-purple-500/30 bg-navy-950/70 p-4 space-y-3 shadow-lg"
+              className="rounded-2xl border-2 border-purple-500/40 bg-navy-950/80 p-3.5 space-y-3 shadow-xl"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="font-mono text-xs font-bold text-purple-400">{sh.distanceKm} km away</span>
-                  <h3 className="text-sm font-bold text-white mt-0.5">{sh.name}</h3>
+                  <span className="text-xs font-black text-purple-400">📍 {sh.distanceKm} km away</span>
+                  <h3 className="text-sm font-black text-white mt-0.5">{sh.name}</h3>
                 </div>
-                <span
-                  className={`rounded px-2 py-0.5 font-mono text-[10px] font-bold ${
-                    isNear
-                      ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-                      : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                  }`}
+                <button
+                  onClick={() => speak(shelterSpeech)}
+                  className="p-1 text-slate-400 hover:text-amber-300"
                 >
-                  {openSpaces} Spaces Left
-                </span>
+                  <Volume2 className="h-4 w-4" />
+                </button>
               </div>
 
-              <div className="flex items-center space-x-1.5 text-xs text-slate-400 font-mono">
+              <div className="flex items-center space-x-1.5 text-xs text-slate-300">
                 <MapPin className="h-3.5 w-3.5 text-slate-500 shrink-0" />
                 <span className="truncate">{sh.address}</span>
               </div>
 
-              <div className="flex items-center space-x-3 text-[11px] font-mono text-emerald-400">
-                <span>✓ Food Rations</span>
-                <span>✓ Medical First Aid</span>
-                <span>✓ High Elevation DEM</span>
+              {/* Visual Badges */}
+              <div className="flex items-center space-x-2 text-xs font-bold text-emerald-400 bg-black/30 p-2 rounded-xl border border-white/5">
+                <span>🍛 {language === "ta" ? "இலவச உணவு" : "Free Meals"}</span>
+                <span>•</span>
+                <span>🩺 {language === "ta" ? "மருத்துவர்" : "Doctor"}</span>
+                <span>•</span>
+                <span className="text-cyan-300">🛏️ {openSpaces} {language === "ta" ? "இடங்கள்" : "Beds"}</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/5 font-mono text-xs">
+              {/* Big 1-Tap Action Buttons */}
+              <div className="grid grid-cols-2 gap-2 pt-1 font-bold text-xs">
                 <a
                   href={`tel:${sh.phone}`}
-                  className="flex items-center justify-center space-x-1.5 rounded-lg border border-white/10 bg-white/5 p-2 text-slate-200 hover:bg-white/10"
+                  className="flex items-center justify-center space-x-2 rounded-xl border border-emerald-500/50 bg-emerald-950/40 p-3 text-emerald-300 active:scale-95 shadow-md"
                 >
-                  <Phone className="h-3.5 w-3.5 text-cyan-400" />
-                  <span>Call Camp</span>
+                  <Phone className="h-4 w-4 text-emerald-400 animate-pulse" />
+                  <span>{t.callCamp}</span>
                 </a>
 
                 <a
                   href={`https://maps.google.com/?q=${encodeURIComponent(sh.name + " " + sh.address)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center space-x-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 p-2 text-white font-bold shadow-md"
+                  className="flex items-center justify-center space-x-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 p-3 text-white active:scale-95 shadow-md"
                 >
-                  <Navigation className="h-3.5 w-3.5" />
-                  <span>Get Directions</span>
+                  <Navigation className="h-4 w-4" />
+                  <span>{t.directions}</span>
                 </a>
               </div>
             </div>

@@ -1,9 +1,16 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import type { SOSSubmission, ShelterInfo } from "@/types";
+import { SupportedLanguage, TranslationDict, TRANSLATIONS } from "./translations";
 
 interface CitizenAppContextType {
+  language: SupportedLanguage;
+  setLanguage: (lang: SupportedLanguage) => void;
+  t: TranslationDict;
+  speak: (text?: string) => void;
+  isSpeaking: boolean;
+  stopSpeaking: () => void;
   activeSOS: SOSSubmission | null;
   sosHistory: SOSSubmission[];
   userLocation: { lat: number; lng: number; address: string } | null;
@@ -54,24 +61,74 @@ const DEFAULT_SHELTERS: ShelterInfo[] = [
 const CitizenAppContext = createContext<CitizenAppContextType | undefined>(undefined);
 
 export function CitizenAppProvider({ children }: { children: React.ReactNode }) {
+  const [language, setLanguageState] = useState<SupportedLanguage>("ta");
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const [activeSOS, setActiveSOS] = useState<SOSSubmission | null>(null);
   const [sosHistory, setSosHistory] = useState<SOSSubmission[]>([]);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; address: string } | null>({
     lat: 13.0827,
     lng: 80.2707,
-    address: "Anna Nagar West, Chennai (Auto-Detected GPS)",
+    address: "Anna Nagar West, Chennai (GPS Connected)",
   });
   const [shelters] = useState<ShelterInfo[]>(DEFAULT_SHELTERS);
 
-  // Load from localStorage if present
+  // Load language and SOS from localStorage
   useEffect(() => {
     try {
+      const savedLang = localStorage.getItem("crisislens_lang") as SupportedLanguage;
+      if (savedLang && ["en", "ta", "hi", "te"].includes(savedLang)) {
+        setLanguageState(savedLang);
+      }
       const saved = localStorage.getItem("crisislens_active_sos");
       if (saved) {
         setActiveSOS(JSON.parse(saved));
       }
     } catch (e) {}
   }, []);
+
+  const setLanguage = (lang: SupportedLanguage) => {
+    setLanguageState(lang);
+    try {
+      localStorage.setItem("crisislens_lang", lang);
+    } catch (e) {}
+  };
+
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
+
+  const stopSpeaking = useCallback(() => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
+  }, []);
+
+  const speak = useCallback(
+    (customText?: string) => {
+      if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+
+      const textToSpeak = customText || `${t.oneTapSos}. ${t.sosSubtitle}`;
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+
+      // Set speech voice language
+      const langCodes: Record<SupportedLanguage, string> = {
+        en: "en-US",
+        ta: "ta-IN",
+        hi: "hi-IN",
+        te: "te-IN",
+      };
+      utterance.lang = langCodes[language] || "en-US";
+      utterance.rate = 0.9; // Slightly slower for clarity
+      utterance.pitch = 1.0;
+
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+
+      window.speechSynthesis.speak(utterance);
+    },
+    [language, t]
+  );
 
   const fetchGPSLocation = async () => {
     return new Promise<{ lat: number; lng: number; address: string }>((resolve) => {
@@ -81,7 +138,7 @@ export function CitizenAppProvider({ children }: { children: React.ReactNode }) 
             const loc = {
               lat: pos.coords.latitude,
               lng: pos.coords.longitude,
-              address: `GPS Pin: ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`,
+              address: `GPS: ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`,
             };
             setUserLocation(loc);
             resolve(loc);
@@ -90,7 +147,7 @@ export function CitizenAppProvider({ children }: { children: React.ReactNode }) 
             const fallback = {
               lat: 13.0827,
               lng: 80.2707,
-              address: "Anna Nagar West (Simulated GPS)",
+              address: "Anna Nagar West, Chennai (Auto-GPS)",
             };
             setUserLocation(fallback);
             resolve(fallback);
@@ -100,7 +157,7 @@ export function CitizenAppProvider({ children }: { children: React.ReactNode }) 
         const fallback = {
           lat: 13.0827,
           lng: 80.2707,
-          address: "Chennai Central Basin",
+          address: "Chennai Central District",
         };
         setUserLocation(fallback);
         resolve(fallback);
@@ -119,12 +176,15 @@ export function CitizenAppProvider({ children }: { children: React.ReactNode }) 
       submittedAt: new Date().toISOString(),
       status: "AI_ANALYZED",
       priorityLevel: data.hasMedicalEmergency || data.strandedPeople >= 4 ? "CRITICAL" : "HIGH",
-      priorityScore: data.hasMedicalEmergency ? 92 : data.strandedPeople >= 4 ? 88 : 74,
-      assignedTeam: data.requiresBoat ? "NDRF Boat Team Alpha 4" : "108 Emergency Ambulance Unit 12",
+      priorityScore: data.hasMedicalEmergency ? 95 : data.strandedPeople >= 4 ? 88 : 74,
+      assignedTeam: data.requiresBoat ? "NDRF Boat Rescue Unit 4" : "108 Emergency Ambulance Unit 12",
       estimatedEtaMinutes: 14,
     };
 
-    // Try posting to web monitor API if available
+    // Voice announcement when submitting
+    speak(`${t.sendingSos}. ${t.rescueOnTheWay}`);
+
+    // Post to web monitor API if available
     try {
       await fetch("http://localhost:3000/api/reports", {
         method: "POST",
@@ -148,6 +208,12 @@ export function CitizenAppProvider({ children }: { children: React.ReactNode }) 
   return (
     <CitizenAppContext.Provider
       value={{
+        language,
+        setLanguage,
+        t,
+        speak,
+        isSpeaking,
+        stopSpeaking,
         activeSOS,
         sosHistory,
         userLocation,
