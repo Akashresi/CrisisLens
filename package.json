@@ -1,0 +1,27 @@
+{
+  "name": "crisislens-suite",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CrisisLens - Autonomous Multimodal AI Disaster Intelligence & Citizen Response Suite",
+  "workspaces": [
+    "web",
+    "app"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=web",
+    "dev:web": "npm run dev --workspace=web",
+    "dev:app": "npm run dev --workspace=app",
+    "build": "npm run build --workspaces",
+    "build:web": "npm run build --workspace=web",
+    "build:app": "npm run build --workspace=app",
+    "typecheck": "npm run typecheck --workspaces"
+  },
+  "keywords": [
+    "disaster-management",
+    "multimodal-ai",
+    "gis",
+    "decision-support",
+    "computer-vision",
+    "nlp"
+  ]
+}
