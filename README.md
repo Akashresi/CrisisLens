@@ -29,7 +29,7 @@ DiasterLens/
 
 ## 🔬 The 3-Model Feature Fusion Innovation
 
-```
+```text
                      INPUT DISASTER DATA
                               │
           ┌───────────────────┼───────────────────┐
@@ -62,6 +62,7 @@ DiasterLens/
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 ```
@@ -69,18 +70,23 @@ npm install
 ### 2. Run the Applications
 
 - **Run Command & Monitor Center (`web/`)**:
+
   ```bash
   npm run dev:web
   ```
+
   Accessible at: **`http://localhost:3000`**
 
 - **Run Citizen & Field Reporter App (`app/`)**:
+
   ```bash
   npm run dev:app
   ```
+
   Accessible at: **`http://localhost:3001`**
 
 - **Build Both Apps for Production**:
+
   ```bash
   npm run build
   ```
