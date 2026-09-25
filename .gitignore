@@ -14,7 +14,6 @@ dist/
 
 # Misc
 .DS_Store
-CrisisLens
 *.pem
 *.tsbuildinfo
 next-env.d.ts
