@@ -10,20 +10,20 @@ export default function GISMapPage() {
 
   return (
     <div className="p-4 sm:p-6 space-y-4 max-w-[1700px] mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
         <div>
-          <h1 className="text-xl font-bold text-white font-mono uppercase tracking-wider">
+          <h1 className="text-xl font-bold text-slate-900 font-mono uppercase tracking-wider">
             GIS Digital Twin & Spatial Prioritisation
           </h1>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500 font-medium">
             Real-time geospatial map integrating low-lying DEM catchment basins, rainfall mm/hr, and open shelter capacities.
           </p>
         </div>
         <div className="flex items-center space-x-3 text-xs font-mono">
-          <span className="rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 px-2.5 py-1 font-bold">
+          <span className="rounded bg-rose-100 text-rose-800 border border-rose-300 px-2.5 py-1 font-bold shadow-xs">
             {incidents.filter((i) => i.priorityLevel === "CRITICAL").length} Critical Zones
           </span>
-          <span className="rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 px-2.5 py-1 font-bold">
+          <span className="rounded bg-purple-100 text-purple-800 border border-purple-300 px-2.5 py-1 font-bold shadow-xs">
             {shelters.length} Evacuation Shelters
           </span>
         </div>

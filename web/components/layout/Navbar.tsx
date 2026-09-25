@@ -24,24 +24,24 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-navy-950/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur-xl shadow-xs">
       <div className="flex h-16 items-center justify-between px-4 sm:px-6">
         {/* Brand */}
         <div className="flex items-center space-x-6">
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+            <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-cyan-600 to-blue-600 flex items-center justify-center text-white shadow-[0_2px_10px_rgba(6,182,212,0.3)]">
               <Shield className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center space-x-1.5">
-                <span className="font-sans font-black tracking-tight text-white text-lg group-hover:text-cyan-400 transition-colors">
-                  CRISIS<span className="text-cyan-400">LENS</span>
+                <span className="font-sans font-black tracking-tight text-slate-900 text-lg group-hover:text-cyan-600 transition-colors">
+                  CRISIS<span className="text-cyan-600">LENS</span>
                 </span>
-                <span className="rounded bg-cyan-500/20 px-1.5 py-0.2 font-mono text-[9px] font-bold text-cyan-300 border border-cyan-500/30">
+                <span className="rounded bg-cyan-100 px-1.5 py-0.2 font-mono text-[9px] font-bold text-cyan-800 border border-cyan-300">
                   COMMAND
                 </span>
               </div>
-              <p className="font-mono text-[9px] uppercase tracking-widest text-slate-400">
+              <p className="font-mono text-[9px] uppercase tracking-widest text-slate-500 font-semibold">
                 Disaster Response Monitor
               </p>
             </div>
@@ -58,14 +58,14 @@ export function Navbar() {
                   href={item.href}
                   className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
                     isActive
-                      ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.2)]"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                      ? "bg-cyan-50 text-cyan-800 border border-cyan-300 shadow-xs font-bold"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent"
                   }`}
                 >
                   <Icon className="h-3.5 w-3.5" />
                   <span>{item.label}</span>
                   {item.badge && (
-                    <span className="rounded-full bg-rose-500 px-1.5 py-0.2 font-mono text-[9px] font-bold text-white animate-pulse">
+                    <span className="rounded-full bg-rose-600 px-1.5 py-0.2 font-mono text-[9px] font-bold text-white animate-pulse">
                       {item.badge}
                     </span>
                   )}
@@ -78,11 +78,11 @@ export function Navbar() {
         {/* Live System Status Indicators & Citizen App Link */}
         <div className="flex items-center space-x-3">
           {/* Active Incidents Alert */}
-          <div className="hidden sm:flex items-center space-x-2 rounded-lg border border-red-500/30 bg-red-950/40 px-3 py-1 text-xs font-mono">
-            <span className="h-2 w-2 rounded-full bg-red-500 animate-ping" />
-            <span className="text-red-300 font-bold">{criticalCount} Critical</span>
-            <span className="text-slate-500">/</span>
-            <span className="text-slate-300">{activeIncidentsCount} Active</span>
+          <div className="hidden sm:flex items-center space-x-2 rounded-lg border border-red-200 bg-red-50 px-3 py-1 text-xs font-mono">
+            <span className="h-2 w-2 rounded-full bg-red-600 animate-ping" />
+            <span className="text-red-700 font-bold">{criticalCount} Critical</span>
+            <span className="text-slate-400">/</span>
+            <span className="text-slate-700 font-semibold">{activeIncidentsCount} Active</span>
           </div>
 
           {/* Link to Citizen Reporting Mobile App */}
@@ -90,7 +90,7 @@ export function Navbar() {
             href="http://localhost:3001"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center space-x-1.5 rounded-lg bg-gradient-to-r from-rose-600 to-pink-600 px-3 py-1.5 text-xs font-mono font-bold text-white shadow-[0_0_15px_rgba(244,63,94,0.3)] hover:scale-105 transition-transform"
+            className="flex items-center space-x-1.5 rounded-lg bg-gradient-to-r from-rose-600 to-pink-600 px-3 py-1.5 text-xs font-mono font-bold text-white shadow-sm hover:opacity-95 hover:scale-102 transition-all"
           >
             <Radio className="h-3.5 w-3.5 animate-pulse" />
             <span>Open Citizen SOS App</span>

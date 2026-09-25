@@ -45,9 +45,9 @@ export default function MapCanvas({
           zoomControl: false,
         });
 
-        // Dark Command Center CartoDB Basemap
+        // Light Command Center CartoDB Voyager Basemap
         L.tileLayer(
-          "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+          "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
           {
             attribution: '&copy; <a href="https://carto.com/">CARTO</a> OpenStreetMap',
             maxZoom: 19,

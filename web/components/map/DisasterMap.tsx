@@ -28,7 +28,7 @@ export function DisasterMap({ className = "h-full w-full" }: { className?: strin
   });
 
   return (
-    <div className={`relative overflow-hidden rounded-xl border border-white/10 bg-navy-950 ${className}`}>
+    <div className={`relative overflow-hidden rounded-xl border border-slate-200 bg-slate-100 shadow-xs ${className}`}>
       {/* Map Canvas */}
       <MapCanvas
         incidents={incidents}
@@ -40,13 +40,13 @@ export function DisasterMap({ className = "h-full w-full" }: { className?: strin
       />
 
       {/* Floating Layer Controls */}
-      <div className="absolute top-3 left-3 z-[400] flex flex-wrap items-center gap-1.5 rounded-lg border border-white/10 bg-navy-950/80 p-1.5 backdrop-blur-md">
+      <div className="absolute top-3 left-3 z-[400] flex flex-wrap items-center gap-1.5 rounded-lg border border-slate-200 bg-white/95 p-1.5 backdrop-blur-md shadow-sm">
         <button
           onClick={() => setLayers((p) => ({ ...p, incidents: !p.incidents }))}
           className={`flex items-center space-x-1 px-2 py-1 rounded font-mono text-[11px] transition-colors ${
             layers.incidents
-              ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
-              : "text-slate-500 hover:text-slate-300"
+              ? "bg-rose-100 text-rose-800 border border-rose-300 font-bold shadow-xs"
+              : "text-slate-600 hover:text-slate-900"
           }`}
         >
           <ShieldAlert className="h-3 w-3" />
@@ -57,8 +57,8 @@ export function DisasterMap({ className = "h-full w-full" }: { className?: strin
           onClick={() => setLayers((p) => ({ ...p, resources: !p.resources }))}
           className={`flex items-center space-x-1 px-2 py-1 rounded font-mono text-[11px] transition-colors ${
             layers.resources
-              ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
-              : "text-slate-500 hover:text-slate-300"
+              ? "bg-cyan-100 text-cyan-800 border border-cyan-300 font-bold shadow-xs"
+              : "text-slate-600 hover:text-slate-900"
           }`}
         >
           <Users className="h-3 w-3" />
@@ -69,8 +69,8 @@ export function DisasterMap({ className = "h-full w-full" }: { className?: strin
           onClick={() => setLayers((p) => ({ ...p, shelters: !p.shelters }))}
           className={`flex items-center space-x-1 px-2 py-1 rounded font-mono text-[11px] transition-colors ${
             layers.shelters
-              ? "bg-purple-500/20 text-purple-300 border border-purple-500/40"
-              : "text-slate-500 hover:text-slate-300"
+              ? "bg-purple-100 text-purple-800 border border-purple-300 font-bold shadow-xs"
+              : "text-slate-600 hover:text-slate-900"
           }`}
         >
           <Home className="h-3 w-3" />
@@ -81,8 +81,8 @@ export function DisasterMap({ className = "h-full w-full" }: { className?: strin
           onClick={() => setLayers((p) => ({ ...p, floodZones: !p.floodZones }))}
           className={`flex items-center space-x-1 px-2 py-1 rounded font-mono text-[11px] transition-colors ${
             layers.floodZones
-              ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-              : "text-slate-500 hover:text-slate-300"
+              ? "bg-amber-100 text-amber-800 border border-amber-300 font-bold shadow-xs"
+              : "text-slate-600 hover:text-slate-900"
           }`}
         >
           <CloudRain className="h-3 w-3" />
@@ -91,19 +91,19 @@ export function DisasterMap({ className = "h-full w-full" }: { className?: strin
       </div>
 
       {/* Floating Legend */}
-      <div className="absolute bottom-3 left-3 z-[400] hidden sm:block rounded-lg border border-white/10 bg-navy-950/85 p-2.5 backdrop-blur-md font-mono text-[10px] space-y-1 text-slate-300 shadow-xl">
-        <div className="font-bold text-slate-200 border-b border-white/10 pb-1">GIS Digital Twin</div>
+      <div className="absolute bottom-3 left-3 z-[400] hidden sm:block rounded-lg border border-slate-200 bg-white/95 p-2.5 backdrop-blur-md font-mono text-[10px] space-y-1 text-slate-700 shadow-md">
+        <div className="font-bold text-slate-900 border-b border-slate-200 pb-1">GIS Digital Twin</div>
         <div className="flex items-center space-x-1.5">
-          <span className="h-2 w-2 rounded-full bg-red-500" />
+          <span className="h-2 w-2 rounded-full bg-red-600" />
           <span>Critical Incident (Score ≥ 75)</span>
         </div>
         <div className="flex items-center space-x-1.5">
-          <span className="h-2 w-2 rounded-full bg-cyan-400" />
+          <span className="h-2 w-2 rounded-full bg-cyan-600" />
           <span>Active Resource Unit</span>
         </div>
         <div className="flex items-center space-x-1.5">
-          <span className="h-2 w-2 rounded bg-purple-500" />
-          <span>Relief Camp / Evacuation Shelter</span>
+          <span className="h-2 w-2 rounded bg-purple-600" />
+          <span>Relief Camp / Shelter</span>
         </div>
       </div>
     </div>
