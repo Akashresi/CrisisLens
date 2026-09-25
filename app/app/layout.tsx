@@ -21,12 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className="bg-navy-950 text-slate-100 min-h-screen flex flex-col antialiased">
+    <html lang="en">
+      <body className="bg-slate-100 text-slate-900 min-h-screen flex flex-col antialiased">
         <CitizenAppProvider>
-          <div className="flex-1 max-w-md mx-auto w-full flex flex-col bg-navy-900 border-x border-white/5 shadow-2xl relative pb-20">
+          <div className="flex-1 max-w-md mx-auto w-full flex flex-col bg-white border-x border-slate-200 shadow-xl relative pb-20 min-h-screen">
             <MobileHeader />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 bg-slate-50/50">{children}</main>
             <BottomNav />
           </div>
         </CitizenAppProvider>

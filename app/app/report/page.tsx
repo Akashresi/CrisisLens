@@ -151,29 +151,31 @@ export default function ReportPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-base font-black text-white tracking-tight flex items-center space-x-2">
+          <h1 className="text-base font-black text-slate-900 tracking-tight flex items-center space-x-2">
             <span>📷</span>
             <span>{language === "ta" ? "படம் / வீடியோ மற்றும் விவரம்" : "Photo, Video & Incident Report"}</span>
           </h1>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             {language === "ta"
               ? "படம்/வீடியோ எடுத்து அனுப்பினால் கண்காணிப்புக் குழுவிற்கு உடனடி GIS இருப்பிடம் செல்லும்."
               : "Upload photo/video and text. GIS automatically transmits your exact location to monitors."}
           </p>
         </div>
-        <button onClick={() => speak(t.speakInstruction)} className="text-amber-300 p-1.5 rounded-lg bg-white/5 shrink-0">
+        <button onClick={() => speak(t.speakInstruction)} className="text-amber-800 p-1.5 rounded-lg bg-amber-50 border border-amber-200 shrink-0">
           <Volume2 className="h-4 w-4" />
         </button>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* 1. PHOTO & VIDEO CAPTURE ACTIONS */}
-        <div className="rounded-2xl border-2 border-white/10 bg-navy-950/80 p-3.5 space-y-3">
+        <div className="rounded-2xl border border-slate-200 bg-white p-3.5 space-y-3 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-black uppercase tracking-wider text-slate-200 flex items-center space-x-1.5">
+            <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center space-x-1.5">
               <span>1. {language === "ta" ? "படம் அல்லது வீடியோ எடுக்கவும்:" : "Attach Photo or Video:"}</span>
             </span>
-            <span className="text-[10px] font-mono text-cyan-400 font-bold">AI CV Model</span>
+            <span className="text-[10px] font-mono text-cyan-700 font-bold bg-cyan-50 px-2 py-0.5 rounded border border-cyan-200">
+              AI CV Model
+            </span>
           </div>
 
           {/* Big Action Buttons for Camera & Video */}
@@ -181,38 +183,38 @@ export default function ReportPage() {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex flex-col items-center justify-center p-3.5 rounded-xl border-2 border-cyan-500/50 bg-cyan-950/40 hover:bg-cyan-950/60 active:scale-95 transition-all text-cyan-200"
+              className="flex flex-col items-center justify-center p-3.5 rounded-xl border-2 border-cyan-300 bg-cyan-50 hover:bg-cyan-100/70 active:scale-95 transition-all text-cyan-950 shadow-sm"
             >
-              <div className="h-10 w-10 rounded-full bg-cyan-500 flex items-center justify-center text-black font-black mb-1 shadow-lg">
+              <div className="h-10 w-10 rounded-full bg-cyan-600 flex items-center justify-center text-white font-black mb-1 shadow-md">
                 <Camera className="h-5 w-5" />
               </div>
               <span className="text-xs font-black">{language === "ta" ? "படம் எடுக்க" : "Take Photo"}</span>
-              <span className="text-[9px] text-cyan-300 opacity-80">Camera / Gallery</span>
+              <span className="text-[9px] text-cyan-800 font-medium">Camera / Gallery</span>
             </button>
 
             <button
               type="button"
               onClick={() => videoInputRef.current?.click()}
-              className="flex flex-col items-center justify-center p-3.5 rounded-xl border-2 border-purple-500/50 bg-purple-950/40 hover:bg-purple-950/60 active:scale-95 transition-all text-purple-200"
+              className="flex flex-col items-center justify-center p-3.5 rounded-xl border-2 border-purple-300 bg-purple-50 hover:bg-purple-100/70 active:scale-95 transition-all text-purple-950 shadow-sm"
             >
-              <div className="h-10 w-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-black mb-1 shadow-lg">
+              <div className="h-10 w-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-black mb-1 shadow-md">
                 <Video className="h-5 w-5" />
               </div>
               <span className="text-xs font-black">{language === "ta" ? "வீடியோ எடுக்க" : "Record Video"}</span>
-              <span className="text-[9px] text-purple-300 opacity-80">Video Clip / Cam</span>
+              <span className="text-[9px] text-purple-800 font-medium">Video Clip / Cam</span>
             </button>
           </div>
 
           {/* Live Media Preview Card */}
           {previewUrl && (
-            <div className="relative rounded-xl overflow-hidden border-2 border-cyan-400 bg-black aspect-video flex items-center justify-center">
+            <div className="relative rounded-xl overflow-hidden border-2 border-cyan-400 bg-black aspect-video flex items-center justify-center shadow-md">
               {mediaType === "VIDEO" ? (
                 <video src={previewUrl} controls className="h-full w-full object-cover" />
               ) : (
                 <img src={previewUrl} alt="Incident Preview" className="h-full w-full object-cover" />
               )}
-              <div className="absolute top-2 left-2 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/20 text-[10px] font-mono text-cyan-300 font-bold flex items-center space-x-1">
-                <Sparkles className="h-3 w-3 text-cyan-400" />
+              <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-slate-200 text-[10px] font-mono text-cyan-900 font-bold flex items-center space-x-1 shadow-sm">
+                <Sparkles className="h-3 w-3 text-cyan-600" />
                 <span>{mediaType === "VIDEO" ? "VIDEO ATTACHED" : "PHOTO ATTACHED"}</span>
               </div>
             </div>
@@ -220,7 +222,7 @@ export default function ReportPage() {
 
           {/* Sample Preset Photos if camera unavailable */}
           <div className="space-y-1.5 pt-1">
-            <span className="text-[10px] font-bold text-slate-400 block">
+            <span className="text-[10px] font-bold text-slate-500 block">
               {language === "ta" ? "அல்லது மாதிரி புகைப்படத்தைத் தேர்ந்தெடுக்கவும்:" : "Or select sample disaster scenario:"}
             </span>
             <div className="grid grid-cols-3 gap-2">
@@ -234,7 +236,7 @@ export default function ReportPage() {
                     speak(photo.label);
                   }}
                   className={`relative rounded-xl overflow-hidden border-2 aspect-square flex flex-col items-center justify-end p-1 transition-all ${
-                    previewUrl === photo.url ? "border-cyan-400 ring-2 ring-cyan-400 scale-102" : "border-white/10 opacity-70"
+                    previewUrl === photo.url ? "border-cyan-500 ring-2 ring-cyan-200 scale-102 shadow-md" : "border-slate-200 opacity-75"
                   }`}
                 >
                   <img src={photo.url} alt={photo.label} className="absolute inset-0 h-full w-full object-cover" />
@@ -249,9 +251,9 @@ export default function ReportPage() {
         </div>
 
         {/* 2. TEXT INPUT & VOICE SPEECH-TO-TEXT */}
-        <div className="rounded-2xl border-2 border-white/10 bg-navy-950/80 p-3.5 space-y-3">
+        <div className="rounded-2xl border border-slate-200 bg-white p-3.5 space-y-3 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-black uppercase tracking-wider text-slate-200">
+            <span className="text-xs font-black uppercase tracking-wider text-slate-800">
               2. {language === "ta" ? "நிலைமையை விவரிக்கவும் (விருப்பம்):" : "Describe the Situation (Text):"}
             </span>
             <button
@@ -259,8 +261,8 @@ export default function ReportPage() {
               onClick={handleVoiceToggle}
               className={`flex items-center space-x-1 rounded-full px-2.5 py-0.5 text-xs font-bold transition-all border ${
                 isRecordingVoice
-                  ? "bg-red-600 text-white border-red-400 animate-pulse"
-                  : "bg-amber-500/20 text-amber-300 border-amber-500/40"
+                  ? "bg-red-600 text-white border-red-500 animate-pulse shadow-sm"
+                  : "bg-amber-50 text-amber-900 border-amber-300 shadow-sm hover:bg-amber-100"
               }`}
             >
               <Mic className="h-3.5 w-3.5" />
@@ -277,7 +279,7 @@ export default function ReportPage() {
             }
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-navy-900 p-3 font-sans text-xs text-slate-100 placeholder-slate-500 focus:border-cyan-400 focus:outline-none"
+            className="w-full rounded-xl border border-slate-300 bg-slate-50 p-3 font-sans text-xs text-slate-900 placeholder-slate-400 focus:border-cyan-500 focus:bg-white focus:outline-none"
           />
 
           {/* Quick Suggestion Chips */}
@@ -290,7 +292,7 @@ export default function ReportPage() {
                   setDescription((prev) => (prev ? `${prev}, ${chip.text}` : chip.text));
                   speak(chip.text);
                 }}
-                className="flex items-center space-x-1 rounded-lg border border-white/10 bg-black/40 px-2.5 py-1 text-[11px] font-medium text-slate-300 hover:text-white hover:border-cyan-400 active:scale-95 transition-all"
+                className="flex items-center space-x-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-700 hover:text-slate-900 hover:border-cyan-400 active:scale-95 transition-all shadow-sm"
               >
                 <span>{chip.icon}</span>
                 <span>{chip.text}</span>
@@ -300,37 +302,37 @@ export default function ReportPage() {
         </div>
 
         {/* 3. GIS LOCATION TRANSMISSION WIDGET */}
-        <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-br from-navy-950 via-navy-900 to-emerald-950/30 p-3.5 space-y-2.5">
+        <div className="rounded-2xl border-2 border-emerald-300 bg-emerald-50/70 p-3.5 space-y-2.5 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-300 flex items-center space-x-1.5">
-              <Radio className="h-3.5 w-3.5 animate-pulse text-emerald-400" />
+            <span className="text-xs font-black uppercase tracking-wider text-emerald-950 flex items-center space-x-1.5">
+              <Radio className="h-3.5 w-3.5 animate-pulse text-emerald-600" />
               <span>3. GIS Spatial Telemetry (Auto-Attached)</span>
             </span>
             <button
               type="button"
               onClick={handleRefreshLocation}
               disabled={gpsRefreshing}
-              className="text-[10px] font-mono font-bold text-cyan-300 bg-cyan-500/20 border border-cyan-500/40 px-2 py-0.5 rounded active:scale-95"
+              className="text-[10px] font-mono font-bold text-emerald-900 bg-white border border-emerald-300 px-2 py-0.5 rounded shadow-sm active:scale-95"
             >
               {gpsRefreshing ? "Locating..." : "📍 Refresh GPS"}
             </button>
           </div>
 
           {/* GIS Coordinates & Address Card */}
-          <div className="bg-black/40 p-2.5 rounded-xl border border-white/5 space-y-1 font-mono text-xs">
-            <div className="flex items-center justify-between text-slate-300">
-              <span className="text-slate-400">GPS Pin:</span>
-              <span className="text-cyan-400 font-bold">
+          <div className="bg-white p-2.5 rounded-xl border border-emerald-200 space-y-1 font-mono text-xs shadow-sm">
+            <div className="flex items-center justify-between text-slate-700">
+              <span className="text-slate-500">GPS Pin:</span>
+              <span className="text-emerald-800 font-bold">
                 {userLocation ? `${userLocation.lat.toFixed(4)}° N, ${userLocation.lng.toFixed(4)}° E` : "13.0827° N, 80.2707° E"}
               </span>
             </div>
-            <div className="flex items-center justify-between text-slate-300">
-              <span className="text-slate-400">DEM Elevation:</span>
-              <span className="text-emerald-400 font-bold">14.2m MSL (Low-Lying Basin)</span>
+            <div className="flex items-center justify-between text-slate-700">
+              <span className="text-slate-500">DEM Elevation:</span>
+              <span className="text-emerald-700 font-bold">14.2m MSL (Low-Lying Basin)</span>
             </div>
-            <div className="flex items-center space-x-1.5 text-slate-300 pt-1 border-t border-white/5">
-              <MapPin className="h-3.5 w-3.5 text-rose-400 shrink-0" />
-              <span className="text-[11px] truncate">{userLocation?.address || "Anna Nagar West, Chennai (Auto-Detected)"}</span>
+            <div className="flex items-center space-x-1.5 text-slate-800 pt-1 border-t border-slate-100">
+              <MapPin className="h-3.5 w-3.5 text-rose-500 shrink-0" />
+              <span className="text-[11px] font-medium truncate">{userLocation?.address || "Anna Nagar West, Chennai (Auto-Detected)"}</span>
             </div>
           </div>
         </div>
@@ -339,7 +341,7 @@ export default function ReportPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full flex items-center justify-center space-x-2 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-pink-600 p-4 font-black text-sm text-white shadow-[0_0_35px_rgba(244,63,94,0.6)] active:scale-95 transition-transform disabled:opacity-50"
+          className="w-full flex items-center justify-center space-x-2 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-500 p-4 font-black text-sm text-white shadow-[0_8px_25px_rgba(225,29,72,0.35)] active:scale-95 transition-transform disabled:opacity-50"
         >
           <Send className="h-5 w-5" />
           <span>
